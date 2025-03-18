@@ -1,0 +1,120 @@
+package s30.week2;
+
+import java.util.HashMap;
+import java.util.HashSet;
+
+public class IsomorphicStrings {
+
+    //a g e a e
+    //e f d e d
+    public boolean isIsoMorphic(String s, String t) {
+
+        HashMap<Character, Character> map = new HashMap<>();
+        HashSet<Character> revSet = new HashSet<>();
+
+        for( int i = 0 ; i < s.length() ; i++) {
+            char charS = s.charAt(i);
+            char charT = s.charAt(i);
+
+            //The reverse check is done only when
+            if(!map.containsKey(charS)) {
+                map.put(charS, charT);
+                if(revSet.contains(charT)) {
+                    return false;
+                } else {
+                    revSet.add(charT);
+                }
+            } else {
+                if(map.get(charS) != charT) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean isIsoMorphicHashMap1(String s, String t) {
+
+        HashMap<Character, Character> map = new HashMap<>();
+        HashMap<Character, Character> revMap = new HashMap<>();
+
+        for( int i = 0 ; i < s.length() ; i++) {
+            char charS = s.charAt(i);
+            char charT = t.charAt(i);
+
+            if(!map.containsKey(charS)) {
+                map.put(charS, charT);
+                if(revMap.containsKey(charT)) {
+                    return false;
+                } else {
+                    revMap.put(charT, charS);
+                }
+            } else {
+                if(map.get(charS) != charT) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public boolean isIsoMorphicHashMap2(String s, String t) {
+
+        HashMap<Character, Character> map = new HashMap<>();
+        HashMap<Character, Character> revMap = new HashMap<>();
+        for( int i = 0 ; i < s.length() ; i++) {
+            char charS = s.charAt(i);
+            char charT = t.charAt(i);
+
+            if(map.containsKey(charS)) {
+                if(map.get(charS) != charT) {
+                    return false;
+                }
+            } else {
+                map.put(charS, charT);
+            }
+
+            if(revMap.containsKey(charT)) {
+                if(revMap.get(charT) != charS) {
+                    return false;
+                }
+            } else {
+                revMap.put(charT, charS);
+            }
+
+        }
+        return true;
+    }
+
+    public static boolean isIsoMorphicArray(String s, String t) {
+        //egn
+        //dee
+        //          d e
+        //0 1 2 3 4 5 6 7 8
+
+        //        t t
+        //0 1 2 3 4 5 6 7 8
+        char charS, charT;
+        char[] sMap = new char[100];
+        boolean[] tSet = new boolean[100];
+
+        for ( int i = 0 ; i < s.length() ; i++) {
+            charS = s.charAt(i);
+            charT = t.charAt(i);
+
+            if (sMap[charS - ' '] != 0) {
+                if (sMap[charS - ' '] != charT) return false;
+            } else {
+                if(tSet[charT - ' ']) return false;
+                sMap[charS - ' '] = charT;
+                tSet[charT - ' '] = true;
+            }
+        }
+        return true;
+    }
+
+
+    public static void main(String[] args) {
+        boolean flag = isIsoMorphicArray("egn" , "dee");
+        System.out.println("flag:: " + flag);
+    }
+
+}
